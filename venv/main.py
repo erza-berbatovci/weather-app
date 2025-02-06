@@ -10,9 +10,9 @@ class WeatherApp(QWidget):
         self.city_label = QLabel("Enter city name: ", self)
         self.city_input = QLineEdit(self)
         self.get_weather_button = QPushButton("Get Weather", self)
-        self.temperature_label = QLabel("25°C", self)
-        self.emoji_label = QLabel("*", self)
-        self.description_label = QLabel("Sunny", self)
+        self.temperature_label = QLabel(self)
+        self.emoji_label = QLabel(self)
+        self.description_label = QLabel(self)
         self.initUI()
         
     def initUI(self):
@@ -69,7 +69,29 @@ class WeatherApp(QWidget):
                 font-size: 50px;
             }
                            """)
+        
+        self.get_weather_button.clicked.connect(self.get_weather)
     
+    def get_weather(self):
+        api_key="7aed81282c170eb35aed735bc424ba2d"
+        city=self.city_input.text()
+        url=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
+        
+        try:
+           response=requests.get(url)
+           data = response.json()
+        
+           if data["cod"] == 200:
+               self.display_weather(data)
+        except requests.exceptions.HTTPError:
+            pass
+        
+    
+    def display_error(self, message):
+        pass
+    
+    def display_weather(self, data):
+        print(data)
             
         
 if __name__ == "__main__":
