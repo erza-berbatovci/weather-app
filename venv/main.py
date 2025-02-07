@@ -122,9 +122,10 @@ class WeatherApp(QWidget):
         self.temperature_label.setStyleSheet("font-size: 75px;")
         temperature_k = data["main"]["temp"]
         temperature_c = round(temperature_k - 273.15)
+        weather_description = data["weather"][0]["description"]
         
         self.temperature_label.setText(f"{temperature_c}°C")
-        
+        self.description_label.setText(weather_description)
             
         
 if __name__ == "__main__":
